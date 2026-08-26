@@ -39,10 +39,16 @@ def update_system():
     except Exception:
         return False
 
+def parse_version_tuple(v):
+    try:
+        import re
+        return tuple(int(x) for x in re.findall(r'\d+', str(v)))
+    except Exception:
+        return (0,)
+
 def compare_versions(a, b):
     try:
-        from pkg_resources import parse_version
-        return (parse_version(a) >= parse_version(b))
+        return parse_version_tuple(a) >= parse_version_tuple(b)
     except Exception:
         return False
 
