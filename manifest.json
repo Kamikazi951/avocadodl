@@ -10,10 +10,12 @@
   "minFeaturesLevel": 3,
   "targetApiVersion": 6,
   "dependencies": {
-    "Python": {"minVersion": "3.8"}
+    "Python": {"minVersion": "3.10"},
+    "Deno": {"minVersion": "2.3.0"}
   },
   "permissions": [
-    "launchPython"
+    "launchPython",
+    "launchDeno"
   ],
   "scripts": [
     "tools.js",

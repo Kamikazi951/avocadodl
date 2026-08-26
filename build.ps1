@@ -52,7 +52,29 @@ $TempDir = Join-Path $env:TEMP "avocadodl-build"
 if (Test-Path $TempDir) { Remove-Item -Recurse -Force $TempDir }
 New-Item -ItemType Directory -Path $TempDir -Force | Out-Null
 
-Copy-Item -Recurse "$AddonPath\*" $TempDir
+$FilesToInclude = @(
+    "manifest.json",
+    "icon.svg",
+    "tools.js",
+    "msabstractparser.js",
+    "msparser.js",
+    "msbatchparser.js",
+    "config_loader.py",
+    "ytdlp_helper.py",
+    "settings.template.json"
+)
+
+foreach ($f in $FilesToInclude) {
+    $src = Join-Path $AddonPath $f
+    if (Test-Path $src) {
+        Copy-Item $src $TempDir
+    }
+}
+
+$ytSrc = Join-Path $AddonPath "yt-dlp"
+if (Test-Path $ytSrc) {
+    Copy-Item -Recurse $ytSrc (Join-Path $TempDir "yt-dlp")
+}
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::CreateFromDirectory($TempDir, $OutputPath)
